@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  accesos-directos:
+    build: .
+    container_name: accesos-directos
+    ports:
+      - "8080:80"
+    # Volúmenes eliminados para usar la versión "empaquetada" dentro del Docker
+    restart: unless-stopped
