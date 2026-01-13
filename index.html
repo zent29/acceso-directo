@@ -4,25 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesos Directos</title>
+    <title>Accesos Directos Pro</title>
+    <!-- Referencia a la hoja de estilos principal -->
     <link rel="stylesheet" href="style.css?v=1">
+    <!-- Fuentes de Google: Outfit para un look moderno -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Iconos -->
+    <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
+    <!-- Capa de brillo de fondo para el efecto visual neón -->
     <div class="background-glow"></div>
 
+    <!-- Badge de perfil de usuario (esquina superior izquierda) -->
     <div class="user-badge" id="userBadge">
         <div class="avatar" id="userAvatar">
             <img id="avatarImage" src="" alt="Avatar"
                 style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             <span id="avatarInitial">U</span>
-            <!-- Input oculto para subir foto local -->
+            <!-- Input oculto para cargar foto de perfil local -->
             <input type="file" id="photoInput" accept="image/*" style="display: none;">
         </div>
         <div class="user-info">
@@ -30,7 +34,7 @@
             <span class="user-role" id="userRole">Perfil Local</span>
         </div>
 
-        <!-- Menú Desplegable -->
+        <!-- Menú desplegable del perfil -->
         <div class="profile-dropdown" id="profileDropdown">
             <div class="dropdown-item" id="changePhotoBtn">
                 <i class="fa-solid fa-camera"></i> Cambiar Foto
@@ -45,45 +49,66 @@
     </div>
 
     <main class="container">
+        <!-- Encabezado de la página -->
         <header class="header">
             <div class="logo-icon">
                 <i class="fa-solid fa-star"></i>
             </div>
             <h1>Mis Accesos <span class="gradient-text">Pro</span></h1>
-            <p class="subtitle">Guarda tus sitios web favoritos con estilo</p>
+            <p class="subtitle">Guarda tus sitios favoritos con un toque profesional</p>
         </header>
 
+        <!-- Formulario (Card) para añadir nuevos accesos directos -->
         <section class="input-card glass-panel">
-            <div class="input-group">
-                <input type="text" id="urlInput" placeholder="Ingresa la URL (ej: google.com)" autocomplete="off">
+            <div class="input-row">
+                <div class="input-group">
+                    <input type="text" id="urlInput" placeholder="URL (ej: google.com)" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="titleInput" placeholder="Título (opcional)" autocomplete="off">
+                </div>
             </div>
-            <div class="input-group">
-                <input type="text" id="titleInput" placeholder="Título (opcional)" autocomplete="off">
+            <div class="input-row">
+                <div class="input-group">
+                    <input type="text" id="descriptionInput" placeholder="Descripción corta (opcional)"
+                        autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="tagsInput" placeholder="Etiquetas (separadas por comas)" autocomplete="off">
+                </div>
             </div>
             <button id="addBtn" class="btn-primary">
-                <i class="fa-solid fa-plus"></i> Agregar
+                <i class="fa-solid fa-plus"></i> Guardar Acceso
             </button>
         </section>
 
+        <!-- Barra de búsqueda con filtro dinámico -->
         <div class="search-bar-container">
             <i class="fa-solid fa-search search-icon"></i>
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar en tus accesos directos..."
-                autocomplete="off">
+            <input type="text" id="searchInput" class="search-input"
+                placeholder="Buscar por título, URL, descripción o etiquetas..." autocomplete="off">
         </div>
 
+        <!-- Contenedor principal donde se renderizan los accesos directos -->
         <section id="shortcutsList" class="shortcuts-grid">
-            <!-- Los accesos directos se agregarán aquí dinámicamente -->
+            <!-- Cargan dinámicamente vía script.js -->
         </section>
 
+        <!-- Estado vacío: aparece cuando no hay accesos guardados -->
         <div id="emptyState" class="empty-state">
             <div class="empty-icon">
                 <i class="fa-solid fa-link"></i>
             </div>
-            <p>No hay accesos directos aún. ¡Agrega tu primer sitio web!</p>
+            <p>Aún no tienes accesos guardados. ¡Agrega el primero!</p>
         </div>
     </main>
 
+    <!-- Librerías Externas -->
+    <!-- Supabase: Para persistir datos en la nube (opcional) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SortableJS: Para gestionar el drag & drop profesional -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Script principal de lógica de la aplicación -->
     <script src="script.js?v=1"></script>
 </body>
 
