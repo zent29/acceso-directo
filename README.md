@@ -1,4 +1,4 @@
- 🚀 Mis Accesos Pro
+🚀 Mis Accesos Pro
 
 ¡Bienvenido a **Mis Accesos Pro**! Una aplicación web ultra-rápida, estética y funcional para gestionar tus marcadores y accesos directos favoritos con un diseño premium inspirado en **ChromeOS y Android**.
 
