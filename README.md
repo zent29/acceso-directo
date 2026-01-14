@@ -2,7 +2,8 @@
 
 ¡Bienvenido a **Mis Accesos Pro**! Una aplicación web ultra-rápida, estética y funcional para gestionar tus marcadores y accesos directos favoritos con un diseño premium inspirado en **ChromeOS y Android**.
 
-![Preview](https://www.google.com/s2/favicons?domain=google.com&sz=128) <!-- Puedes reemplazar esto con una captura de pantalla real -->
+![Preview](<img width="1909" height="878" alt="image" src="https://github.com/user-attachments/assets/08fded59-4185-4665-a333-8d8b3193f41c" />
+) <!-- Puedes reemplazar esto con una captura de pantalla real -->
 
 ## ✨ Características Principales
 
@@ -41,7 +42,7 @@ Si prefieres usar Docker, ya tenemos todo configurado:
 ```bash
 docker compose up -d --build
 ```
-La aplicación estará disponible en `http://localhost:8080`.
+La aplicación estará disponible en `https://accesodirectopro.vercel.app/`.
 
 ## 📸 Capturas de Pantalla (Diseño Móvil)
 El diseño móvil cuenta con:
