@@ -332,6 +332,29 @@ input:focus {
     opacity: 0;
 }
 
+/* Botón Secundario (para carpetas) */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 16px 32px;
+    border-radius: 14px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 180, 0, 0.4);
+    transform: translateY(-2px);
+}
+
 /* Barra de Búsqueda */
 .search-bar-container {
     width: 100%;
@@ -355,38 +378,55 @@ input:focus {
     pointer-events: none;
 }
 
-/* Grid de los Accesos Directos */
+/* Grid de los Accesos Directos - Perfeccionado */
 .shortcuts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 35px;
 }
 
-/* Tarjeta individual (Card) del acceso directo */
+@media (min-width: 480px) {
+    .shortcuts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    .shortcuts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 25px;
+    }
+}
+
+/* Tarjeta individual (Card) - Diseño Premium y Equilibrado */
 .shortcut-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
     border-radius: 20px;
-    padding: 24px;
+    padding: 20px 15px;
+    /* Espacio equilibrado */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     color: white;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     overflow: hidden;
+    min-height: 180px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Efectos de hover y transición de tarjeta con elevación 3D */
 .shortcut-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(161, 0, 255, 0.4);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(161, 0, 255, 0.15);
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(161, 0, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 15px rgba(161, 0, 255, 0.15);
     cursor: grab;
     z-index: 5;
 }
@@ -426,38 +466,65 @@ input:focus {
     cursor: grabbing !important;
 }
 
-/* Icono central de la tarjeta */
+/* Icono central: Protegido para no salirse */
 .shortcut-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
     margin-bottom: 15px;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.shortcut-icon img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .shortcut-title {
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
     margin-bottom: 6px;
     width: 100%;
+    color: #fff;
+    line-height: 1.2;
 }
 
 /* Estilo de la descripción (limitado a 2 líneas) */
 .shortcut-description {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 12px;
-    opacity: 0.8;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    display: none;
+    /* La quitamos en mobile/compacto para ahorrar espacio o la limitamos */
+}
+
+@media (min-width: 768px) {
+    .shortcut-description {
+        display: -webkit-box;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-top: 5px;
+        margin-bottom: 12px;
+        opacity: 0.8;
+        line-height: 1.4;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .shortcut-title {
+        font-size: 1.05rem;
+        white-space: normal;
+    }
+
+    .shortcut-card {
+        padding: 24px 20px;
+    }
 }
 
 /* Visualización de las etiquetas (Tags) */
@@ -508,6 +575,38 @@ input:focus {
     color: #ff4040;
 }
 
+/* Botón de fijar (Pin) */
+.pin-btn {
+    position: absolute;
+    top: 12px;
+    right: 40px;
+    /* Al lado del de cerrar */
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.shortcut-card:hover .pin-btn {
+    opacity: 1;
+}
+
+.pin-btn:hover {
+    color: #ffcc00;
+    transform: scale(1.2) rotate(-15deg);
+}
+
+.pin-btn.active {
+    opacity: 1;
+    color: #ffcc00;
+    transform: rotate(-45deg);
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+}
+
 /* Manejador de arrastre (oculto visualmente pero activo para SortableJS) */
 .drag-handle {
     display: none;
@@ -533,6 +632,24 @@ input:focus {
     backdrop-filter: blur(15px) !important;
     z-index: 1000 !important;
     cursor: grabbing;
+}
+
+/* Tarjeta fijada */
+.shortcut-card.is-pinned {
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    background: rgba(255, 204, 0, 0.05);
+}
+
+.shortcut-card.is-pinned::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 6px;
+    height: 6px;
+    background: #ffcc00;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ffcc00;
 }
 
 /* ANIMACIONES */
@@ -570,10 +687,14 @@ input:focus {
     }
 }
 
-/* ADAPTACIÓN A MÓVILES */
+/* ADAPTACIÓN A MÓVILES (Estilo Chrome/Android) */
 @media (max-width: 600px) {
+    body {
+        overflow-x: hidden;
+    }
+
     .header h1 {
-        font-size: 3rem;
+        font-size: 2.2rem;
     }
 
     .user-badge {
@@ -581,13 +702,182 @@ input:focus {
         top: 0;
         left: 0;
         margin-bottom: 20px;
+        align-self: flex-end;
+        padding: 8px 15px;
     }
 
     .container {
-        margin-top: 20px;
+        margin-top: 10px;
+        padding: 15px;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Panel de entrada más compacto en móvil */
+    .glass-panel {
+        padding: 20px;
+        border-radius: 20px;
+        max-width: 100%;
+    }
+
+    .input-row {
+        gap: 10px;
+    }
+
+    .input-group {
+        min-width: 100%;
     }
 
     .btn-primary {
         width: 100%;
+        padding: 14px;
+    }
+
+    /* GRID DE ACCESOS ESTILO RECUADRO MÓVIL (Como en la imagen) */
+    .shortcuts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+        /* Fluido: bajan cuando no caben */
+        gap: 30px 15px;
+        /* Más espacio para evitar solapamiento de botones */
+        background: rgba(30, 15, 10, 0.6);
+        padding: 30px 20px;
+        border-radius: 35px;
+        margin-top: 30px;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        justify-items: center;
+    }
+
+    .shortcut-card {
+        padding: 12px 8px !important;
+        width: 85px !important;
+        /* Tamaño fijo para consistencia */
+        height: 85px !important;
+        min-height: 85px !important;
+        border-radius: 20px !important;
+        overflow: visible !important;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .shortcut-card:hover {
+        transform: scale(1.05);
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Iconos circulares */
+    .shortcut-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50% !important;
+        /* CIRCULAR */
+        background: rgba(255, 255, 255, 0.1) !important;
+        /* Fondo circular sutil */
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .shortcut-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+    }
+
+    .shortcut-title {
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: #eee;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* Cortar texto largo */
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    /* Ocultar elementos innecesarios en vista móvil de iconos */
+    .shortcut-description,
+    .shortcut-tags,
+    .shortcut-url,
+    .drag-handle {
+        display: none !important;
+    }
+
+    /* Ajustar botones de acción en móvil */
+    .delete-btn {
+        top: -8px !important;
+        right: -8px !important;
+        left: auto !important;
+        background: #ff4040 !important;
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        min-height: 30px !important;
+        aspect-ratio: 1 / 1 !important;
+        flex: none !important;
+        border-radius: 50% !important;
+        font-size: 0.85rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: 1 !important;
+        color: white !important;
+        border: 2px solid rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+        z-index: 100 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+    }
+
+    /* Pin en móvil */
+    .pin-btn {
+        top: -8px !important;
+        left: -8px !important;
+        right: auto !important;
+        background: #1a1a1a !important;
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        min-height: 30px !important;
+        aspect-ratio: 1 / 1 !important;
+        flex: none !important;
+        border-radius: 50% !important;
+        font-size: 0.75rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+        z-index: 100 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+    }
+
+    .pin-btn.active {
+        background: #ffcc00 !important;
+        color: #000 !important;
+        opacity: 1 !important;
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0.5) !important;
+    }
+
+    .delete-btn:active,
+    .pin-btn:active {
+        transform: scale(0.85) !important;
+    }
+
+    .copy-btn {
+        display: none !important;
     }
 }

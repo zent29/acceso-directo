@@ -77,9 +77,11 @@
                     <input type="text" id="tagsInput" placeholder="Etiquetas (separadas por comas)" autocomplete="off">
                 </div>
             </div>
-            <button id="addBtn" class="btn-primary">
-                <i class="fa-solid fa-plus"></i> Guardar Acceso
-            </button>
+            <div class="input-row" style="justify-content: center;">
+                <button id="addBtn" class="btn-primary">
+                    <i class="fa-solid fa-plus"></i> Guardar Acceso
+                </button>
+            </div>
         </section>
 
         <!-- Barra de búsqueda con filtro dinámico -->
@@ -89,9 +91,9 @@
                 placeholder="Buscar por título, URL, descripción o etiquetas..." autocomplete="off">
         </div>
 
-        <!-- Contenedor principal donde se renderizan los accesos directos -->
+        <!-- Contenedor único para Accesos Directos -->
         <section id="shortcutsList" class="shortcuts-grid">
-            <!-- Cargan dinámicamente vía script.js -->
+            <!-- Accesos directos cargan aquí -->
         </section>
 
         <!-- Estado vacío: aparece cuando no hay accesos guardados -->
