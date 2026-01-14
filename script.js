@@ -88,7 +88,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const { user_metadata } = currentUser;
             userName.textContent = user_metadata.full_name || 'Usuario';
             userRole.textContent = 'Cuenta de Google';
-            if (user_metadata.avatar_url) setAvatar(user_metadata.avatar_url);
+            if (user_metadata.avatar_url) {
+                setAvatar(user_metadata.avatar_url);
+            } else {
+                avatarInitial.textContent = (user_metadata.full_name || 'U').charAt(0).toUpperCase();
+                avatarImage.style.display = 'none';
+                avatarInitial.style.display = 'flex';
+            }
             loginBtn.style.display = 'none';
             logoutBtn.style.display = 'flex';
         } else {
@@ -412,20 +418,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                const res = e.target.result; setAvatar(res); localStorage.setItem('localProfilePhoto', res);
+                const res = e.target.result;
+                setAvatar(res);
+                localStorage.setItem('localProfilePhoto', res);
+                // Si estamos en móvil, el nombre se oculta por CSS, pero aseguramos estado
             };
             reader.readAsDataURL(file);
         }
     }
 
     function setAvatar(url) {
-        avatarImage.src = url; avatarImage.style.display = 'block'; avatarInitial.style.display = 'none';
+        if (!url) return;
+        avatarImage.src = url;
+        avatarImage.style.display = 'block';
+        avatarInitial.style.display = 'none';
     }
 
     function loadLocalProfilePhoto() {
         if (!currentUser) {
             const photo = localStorage.getItem('localProfilePhoto');
-            if (photo) setAvatar(photo);
+            if (photo) {
+                setAvatar(photo);
+            } else {
+                avatarInitial.textContent = 'U';
+                avatarImage.style.display = 'none';
+                avatarInitial.style.display = 'flex';
+            }
         }
     }
 });

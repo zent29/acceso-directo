@@ -698,12 +698,40 @@ input:focus {
     }
 
     .user-badge {
-        position: relative;
-        top: 0;
-        left: 0;
-        margin-bottom: 20px;
-        align-self: flex-end;
-        padding: 8px 15px;
+        position: absolute !important;
+        top: 20px !important;
+        left: 20px !important;
+        /* Lado opuesto (izquierda) */
+        right: auto !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        /* Forma circular */
+        width: 48px !important;
+        height: 48px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .user-info {
+        display: none !important;
+        /* Ocultar nombre y rol */
+    }
+
+    .avatar {
+        margin-right: 0 !important;
+        /* Quitar margen para centrar en el círculo */
+    }
+
+    .profile-dropdown {
+        left: 0 !important;
+        right: auto !important;
+    }
+
+    .profile-dropdown::before {
+        left: 15px !important;
     }
 
     .container {
@@ -814,6 +842,33 @@ input:focus {
     }
 
     /* Ajustar botones de acción en móvil */
+    .user-profile {
+        top: 20px !important;
+        left: 20px !important;
+        /* Mover a la izquierda */
+        right: auto !important;
+        padding: 5px !important;
+        /* Más compacto */
+        background: rgba(0, 0, 0, 0.4) !important;
+        border-radius: 50px !important;
+    }
+
+    .user-info-text {
+        display: none !important;
+        /* Ocultar nombre y rol en móvil */
+    }
+
+    .avatar-wrapper {
+        margin-right: 0 !important;
+    }
+
+    .profile-dropdown {
+        left: 0 !important;
+        /* Ajustar menú desplegable a la izquierda */
+        right: auto !important;
+        transform-origin: top left !important;
+    }
+
     .delete-btn {
         top: -8px !important;
         right: -8px !important;
