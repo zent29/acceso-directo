@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let shortcuts = [];
     let currentUser = null;
     let sortableInstance = null;
+    let useDisplayOrder = true; // Flag to detect if schema supports ordering
 
     // --- INICIALIZACIÓN ---
     checkUserSession();
@@ -118,7 +119,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     .order('created_at', { ascending: false });
 
                 if (error) {
-                    // Fallback si no existe display_order
+                    // Fallback si no existe display_order o hay error en la query con orden
+                    console.warn('Error fetching with order, falling back to simple fetch:', error);
+                    useDisplayOrder = false;
                     const { data: retryData } = await supabaseClient
                         .from('shortcuts')
                         .select('*')
@@ -188,23 +191,62 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             // Intentar guardar en Supabase si hay usuario
-            let savedToCloud = false;
             if (currentUser) {
                 try {
-                    const { data, error } = await supabaseClient
+                    // Creamos una copia del objeto para Supabase y eliminamos el ID
+                    const shortcutForDb = { ...newShortcut };
+                    delete shortcutForDb.id;
+                    if (!useDisplayOrder) delete shortcutForDb.display_order;
+
+                    // Intento 1: Insertar TODO
+                    let { data, error } = await supabaseClient
                         .from('shortcuts')
-                        .insert([newShortcut])
+                        .insert([shortcutForDb])
                         .select();
 
-                    if (!error && data && data.length > 0) {
-                        shortcuts.unshift(data[0]); // Agregar al principio del array local
+                    // Intento 2: Si falla, puede ser por columnas faltantes (ej: is_pinned, tags)
+                    // Probamos insertar solo lo básico
+                    if (error) {
+                        console.warn('Fallo inserción completa, probando inserción mínima...', error);
+
+                        const minimalShortcut = {
+                            title: newShortcut.title,
+                            url: newShortcut.url,
+                            user_id: newShortcut.user_id,
+                            icon: newShortcut.icon // Agregamos icono también aquí
+                            // Dejamos que DB ponga created_at
+                        };
+
+                        const retryResult = await supabaseClient
+                            .from('shortcuts')
+                            .insert([minimalShortcut])
+                            .select();
+
+                        data = retryResult.data;
+                        error = retryResult.error;
+
+                        if (!error) {
+                            console.log('Inserción mínima exitosa. Faltan columnas en la tabla Supabase.');
+                            // Podríamos alertar al usuario para que actualice su tabla
+                            // alert('Aviso: Se guardó el acceso, pero tu base de datos necesita las columnas "tags", "description" o "is_pinned" para guardar todos los detalles.');
+                        }
+                    }
+
+                    if (error) {
+                        // Si sigue fallando, es un error fatal (RLS, conexión, etc)
+                        console.error('Error insertando en Supabase:', error);
+                        alert('Error al guardar en la nube: ' + (error.message || JSON.stringify(error)));
+                        throw error;
+                    }
+
+                    if (data && data.length > 0) {
+                        shortcuts.unshift(data[0]);
                         savedToCloud = true;
                     }
                 } catch (e) {
                     console.warn('No se pudo guardar en la nube, guardando localmente:', e);
                 }
             }
-
             // Si no se guardó en la nube, guardar localmente
             if (!savedToCloud) {
                 shortcuts.unshift(newShortcut);
@@ -256,6 +298,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         shortcuts = orderedShortcuts;
 
         if (currentUser) {
+            if (!useDisplayOrder) return; // Si la tabla no soporta orden, no intentamos actualizar
             for (let i = 0; i < shortcuts.length; i++) {
                 // Actualización silenciosa del orden
                 supabaseClient.from('shortcuts').update({ display_order: i }).eq('id', shortcuts[i].id);
@@ -281,8 +324,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (aPinned !== bPinned) return bPinned ? 1 : -1;
 
             // 2. Por orden de visualización (menor primero)
-            const aOrder = a.display_order ?? 999999;
-            const bOrder = b.display_order ?? 999999;
+            // Si display_order es null/undefined, asumimos -1 (nuevo) para que salga primero
+            const aOrder = a.display_order ?? -1;
+            const bOrder = b.display_order ?? -1;
             if (aOrder !== bOrder) return aOrder - bOrder;
 
             // 3. Tie-breaker: Los más nuevos primero (por fecha de creación desc)
